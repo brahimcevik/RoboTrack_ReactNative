@@ -4,6 +4,8 @@ import { useTheme } from './ThemeContext';
 import NavBar from './NavBar';
 import CarList from './MainPage/CarList';
 import RobotDetails from './MainPage/RobotDetails';
+import Weather from './MainPage/Weather';
+import Maps from './MainPage/Maps';
 
 const { width } = Dimensions.get('window');
 const isTablet = width > 768;
@@ -44,10 +46,10 @@ const MainPage = ({ navigation }) => {
             {/* Sağ Sütun - Hava Durumu ve Google Harita */}
             <View style={styles.rightColumn}>
               <View style={[styles.weatherContainer, { backgroundColor: isDark ? '#1a2a3a' : '#d0e8f2' }]}>
-                <Text style={[styles.text, { color: textColor }]}>🌤️ Hava Durumu</Text>
+                <Weather />
               </View>
               <View style={[styles.mapContainer, { backgroundColor: isDark ? '#2a2a2a' : '#e0e0e0' }]}>
-                <Text style={[styles.text, { color: textColor }]}>🗺️ Google Maps</Text>
+                <Maps />
               </View>
             </View>
 
@@ -65,12 +67,41 @@ const styles = StyleSheet.create({
   },
   mainContainer: { flex: 1 },
   contentContainer: { flex: 1 },
-  container: { flex: 1, paddingTop: 10, paddingHorizontal: 10 },
-  leftColumn: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  rightColumn: { flex: 1, padding: 10 },
-  cardContainer: { width: '95%', height: isTablet ? 400 : 300, justifyContent: 'center', alignItems: 'center', borderRadius: 10 },
-  weatherContainer: { height: isTablet ? 150 : 120, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 10 },
-  mapContainer: { height: isTablet ? 240 : 180, justifyContent: 'center', alignItems: 'center', borderRadius: 10 },
+  container: { 
+    flex: 1, 
+    paddingTop: 10, 
+    paddingHorizontal: 10 
+  },
+  leftColumn: { 
+    flex: isTablet ? 0.6 : 1,
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
+  rightColumn: { 
+    flex: isTablet ? 0.4 : 1,
+    padding: 10 
+  },
+  cardContainer: { 
+    width: '95%', 
+    height: isTablet ? 350 : 250,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 10 
+  },
+  weatherContainer: { 
+    height: isTablet ? 200 : 160,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginBottom: 10, 
+    borderRadius: 10 
+  },
+  mapContainer: { 
+    flex: 1,
+    minHeight: isTablet ? 400 : 300,
+    width: '100%',
+    borderRadius: 10,
+    overflow: 'hidden'
+  },
   text: { fontSize: 16, fontWeight: 'bold' },
 });
 

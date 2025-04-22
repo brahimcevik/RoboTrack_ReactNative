@@ -4,13 +4,14 @@ import Vehicle from "../components/VehiclePage/Vehicle";
 import LeftCol from "../components/VehiclePage/LeftCol";
 import RightCol from "../components/VehiclePage/RightCol";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { vehicleCardClick } from "../redux/navigationSlice";
 
 function VehiclePage() {
   const dispatch = useDispatch();
   const [buttonStatus, setButtonStatus] = useState(false);
   const [onlineStatus, setOnlineStatus] = useState(true); // Varsayılan olarak Online
+  const selectedVehicle = useSelector((state) => state.vehicles.selectedVehicle);
 
   const geriDon = () => {
     dispatch(vehicleCardClick());
@@ -102,6 +103,46 @@ function VehiclePage() {
           >
             {buttonStatus ? "Dur" : "Devam Et"}
           </button>
+
+          {/* Robot Detayları */}
+          {selectedVehicle && (
+            <div
+              style={{
+                width: "90%",
+                marginTop: "20px",
+                backgroundColor: "#fff",
+                borderRadius: "8px",
+                padding: "15px",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              }}
+            >
+              <h3 style={{ marginBottom: "15px", color: "#333" }}>Robot Detayları</h3>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                <div>
+                  <p style={{ margin: "5px 0", color: "#666" }}>
+                    <strong>Mesafe:</strong> {selectedVehicle.ugvDistance} m
+                  </p>
+                  <p style={{ margin: "5px 0", color: "#666" }}>
+                    <strong>Hız:</strong> {selectedVehicle.ugvSpeed} km/s
+                  </p>
+                  <p style={{ margin: "5px 0", color: "#666" }}>
+                    <strong>Herbisit:</strong> {selectedVehicle.ugvHerbicide} L
+                  </p>
+                </div>
+                <div>
+                  <p style={{ margin: "5px 0", color: "#666" }}>
+                    <strong>Konum:</strong> {selectedVehicle.carLoc}
+                  </p>
+                  <p style={{ margin: "5px 0", color: "#666" }}>
+                    <strong>Görev:</strong> {selectedVehicle.ugvMission}
+                  </p>
+                  <p style={{ margin: "5px 0", color: "#666" }}>
+                    <strong>Son Aktivite:</strong> {new Date(selectedVehicle.lastRunTime).toLocaleString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </Flex>
       </Col>
       <Col span={8}>

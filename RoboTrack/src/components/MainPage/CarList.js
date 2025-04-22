@@ -25,20 +25,20 @@ const CarList = () => {
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
 
-      // API verisini uygun formata çeviriyoruz
-      const formattedData = data.map(robot => ({
-        id: String(robot.no), // robot.no'yu string yapıyoruz ki hataları önleyelim
-        ugvName: robot.ugvName || `Robot ${robot.no}`,
-        ugvColor: robot.ugvColor || "Gray",
-      }));
-
-      setCarData(formattedData);
+      // API'den gelen tüm veriyi saklıyoruz
+      setCarData(data);
       setError(null);
     } catch (error) {
       setError("Veri yüklenirken bir hata oluştu.");
+      console.error("API Error:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRobotPress = (robot) => {
+    console.log("Robot pressed:", robot);
+    navigation.navigate("RobotDetails", { robotId: robot.id });
   };
 
   return (
@@ -54,10 +54,13 @@ const CarList = () => {
         </View>
       ) : (
         <View style={styles.cardContainer}>
-          {carData.map(car => (
-            <TouchableOpacity key={car.id} onPress={() => navigation.navigate("RobotDetailsScreen", { robotId: car.id })}>
-              <CarCard ugvName={car.ugvName} ugvColor={car.ugvColor} />
-            </TouchableOpacity>
+          {carData.map(robot => (
+            <CarCard 
+              key={robot.id}
+              ugvName={robot.ugvName || `Robot ${robot.no}`}
+              ugvColor={robot.ugvColor || "Gray"}
+              onPress={() => handleRobotPress(robot)}
+            />
           ))}
         </View>
       )}
